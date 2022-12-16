@@ -4,7 +4,7 @@ const logger = require('morgan');
 require('dotenv').config();
 
 const dailyproductsRouter = require('./routes/api/dailyproducts');
-const bloodDietProductsRouter = require('./routes/api/bloodDietProdacts');
+const bloodDietProductsRouter = require('./routes/api/bloodDietProducts');
 
 const app = express();
 
