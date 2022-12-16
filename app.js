@@ -4,6 +4,7 @@ const logger = require('morgan');
 require('dotenv').config();
 
 const dailyproductsRouter = require('./routes/api/dailyproducts');
+const bloodDietProductsRouter = require('./routes/api/bloodDietProducts');
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/dailyproducts', dailyproductsRouter);
+app.use('/api/bloodproducts', bloodDietProductsRouter);
 
 app.use((_, res) => {
   res.status(404).json({ message: 'Not found' });
