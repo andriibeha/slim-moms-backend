@@ -6,5 +6,6 @@ const { joiSchema } = require('../../models/dailyProduct');
 
 router.post('/', validation(joiSchema), ctrlWrapper(ctrl.addOne));
 router.get('/', ctrlWrapper(ctrl.getByDate));
+router.delete('/:productId', ctrlWrapper(ctrl.removeById));
 
 module.exports = router;

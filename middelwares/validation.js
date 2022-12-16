@@ -1,7 +1,9 @@
+const { RequestError } = require('../helpers');
+
 const validation = schema => {
-  return (req, res, next) => {
+  return (req, _, next) => {
     const { error } = schema.validate(req.body);
-    if (error) return res.status(400).json({ message: error.message });
+    if (error) throw RequestError(400, error.message);
 
     next();
   };
