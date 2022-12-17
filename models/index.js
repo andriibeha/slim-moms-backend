@@ -1,3 +1,4 @@
 const { DailyProduct } = require('./dailyProduct');
+const { User } = require('./user');
 
-module.exports = { DailyProduct };
+module.exports = { User, DailyProduct };

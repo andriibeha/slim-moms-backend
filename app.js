@@ -3,6 +3,7 @@ const cors = require('cors');
 const logger = require('morgan');
 require('dotenv').config();
 
+const authRouter = require('./routes/api/auth');
 const dailyproductsRouter = require('./routes/api/dailyproducts');
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
+app.use('/api/auth', authRouter);
 app.use('/api/dailyproducts', dailyproductsRouter);
 
 app.use((_, res) => {
