@@ -1,0 +1,50 @@
+{
+  "openapi": "3.0.3",
+
+  "info": {
+    "version": "1.0.11",
+    "title": "Swagger Slim Moms - OpenAPI 3.0",
+    "descriptrion": "All about Slim Moms API"
+  },
+
+  "consume": ["application/json"],
+  "produces": ["application/json"],
+
+  "servers": [{ "url": "http://localhost:5001" }],
+
+  "tags": [
+    {
+      "name": "Products",
+      "descriptrion": "Products endpoints"
+    }
+  ],
+
+  "paths": {
+    "/api/dailyproducts": {
+      "post": {
+        "tags": ["Products"],
+        "summary": "Daily products",
+
+        "parameters": [],
+        "security": [],
+
+        "requestBody": {
+          "descriptrion": "daily products object",
+          "required": true,
+          "content": {}
+        },
+
+        "responses": {
+          "201": {
+            "descriptrion": "test"
+          },
+
+          "404": {
+            "descriptrion": "Bad request (invalid request bodu)",
+            "content": {}
+          }
+        }
+      }
+    }
+  }
+}
