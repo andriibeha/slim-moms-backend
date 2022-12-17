@@ -2,9 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const logger = require('morgan');
 require('dotenv').config();
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 const authRouter = require('./routes/api/auth');
 const dailyproductsRouter = require('./routes/api/dailyproducts');
+const bloodDietProductsRouter = require('./routes/api/bloodDietProducts');
 
 const app = express();
 
@@ -16,6 +19,10 @@ app.use(express.json());
 
 app.use('/api/auth', authRouter);
 app.use('/api/dailyproducts', dailyproductsRouter);
+app.use('/api/bloodproducts', bloodDietProductsRouter);
+
+//Swager
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((_, res) => {
   res.status(404).json({ message: 'Not found' });
