@@ -5,6 +5,7 @@ require('dotenv').config();
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
+const authRouter = require('./routes/api/auth');
 const dailyproductsRouter = require('./routes/api/dailyproducts');
 const bloodDietProductsRouter = require('./routes/api/bloodDietProducts');
 
@@ -16,6 +17,7 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
+app.use('/api/auth', authRouter);
 app.use('/api/dailyproducts', dailyproductsRouter);
 app.use('/api/bloodproducts', bloodDietProductsRouter);
 
