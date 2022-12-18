@@ -4,6 +4,7 @@ const {
   ctrlWrapper,
   userRegisterValidation,
   userLoginValidation,
+  auth
 } = require('../../middelwares');
 const { register, login, logout } = require('../../controllers/auth');
 

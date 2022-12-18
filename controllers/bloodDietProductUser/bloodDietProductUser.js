@@ -24,12 +24,13 @@ const bloodDietProductsUser = async (req, res, next) => {
 };
 
 const queryProducts = async (req, res) => {
-  const { categories } = req.query;
-  const result = await BloodDietProduct.find({ categories });
+  const { title } = req.query;
+  const result = await BloodDietProduct.find({});
+  const queryProduct = await result.filter(result => result.title.ua === title);
   res.json({
     status: 'success',
     code: 200,
-    result,
+    queryProduct,
   });
 };
 
