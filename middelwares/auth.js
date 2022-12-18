@@ -1,5 +1,5 @@
-const { User } = require("../../models");
-const { RequestError } = require('../../helpers');
+const { User } = require("../models/user");
+const { RequestError } = require('../helpers');
 const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = process.env;
 
@@ -24,4 +24,4 @@ const auth = async (req, res, next) => {
 		next(error);
 	}
 };
-module.exports = { auth };
+module.exports =  auth;

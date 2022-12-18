@@ -5,9 +5,10 @@ const {
   userRegisterValidation,
   userLoginValidation,
 } = require('../../middelwares');
-const { register, login } = require('../../controllers/auth');
+const { register, login, logout } = require('../../controllers/auth');
 
 router.post('/register', userRegisterValidation, ctrlWrapper(register));
 router.post('/login', userLoginValidation, ctrlWrapper(login));
+router.get('/logout', auth, ctrlWrapper(logout));
 
 module.exports = router;
