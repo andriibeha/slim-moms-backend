@@ -24,6 +24,14 @@ const userSchema = Schema(
       type: Boolean,
       default: false,
     },
+    bloodType: {
+      type: Number,
+      default: null,
+    },
+    dailyCalorie: {
+      type: Number,
+      default: null,
+    },
     // verificationToken: {
     //   type: String,
     //   required: [true, 'Verify token is required'],
