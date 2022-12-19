@@ -23,15 +23,27 @@ const bloodDietProductsUser = async (req, res, next) => {
   });
 };
 
-const queryProducts = async (req, res) => {
-  const { title } = req.query;
+const allProducts = async (req, res) => {
   const result = await BloodDietProduct.find({});
-  const queryProduct = await result.filter(result => result.title.ua === title);
   res.json({
     status: 'success',
     code: 200,
-    queryProduct,
+    result,
   });
 };
+const queryProducts = async (req, res) => {
+  const { title } = req.query;
+  const result = await BloodDietProduct.find({});
+  if (result) {
+    const queryProduct = await result.filter(
+      result => result.title.ua === title
+    );
+    res.json({
+      status: 'success',
+      code: 200,
+      queryProduct,
+    });
+  }
+};
 
-module.exports = { bloodDietProductsUser, queryProducts };
+module.exports = { bloodDietProductsUser, queryProducts, allProducts };
