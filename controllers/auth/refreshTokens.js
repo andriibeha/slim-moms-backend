@@ -1,7 +1,7 @@
 const { User, Session } = require('../../models');
 const { RequestError } = require('../../helpers/RequstError');
 const jwt = require('jsonwebtoken');
-const { JWT_ACCESS_SECRET_KEY, JWT_REFRESH_SECRET_KEY } = process.env;
+const { SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
 const refreshToken = async (req, res) => {
   const authHeader = req.get('Authorization');
@@ -15,7 +15,7 @@ const refreshToken = async (req, res) => {
 
     let payload = {};
     try {
-      payload = jwt.verify(reqRefreshToken, JWT_REFRESH_SECRET_KEY);
+      payload = jwt.verify(reqRefreshToken, REFRESH_SECRET_KEY);
     } catch (error) {
       await Session.findByIdAndDelete(req.body.sid);
       throw new RequestError('Unauthorized');
@@ -37,7 +37,7 @@ const refreshToken = async (req, res) => {
 
     const newAccessToken = jwt.sign(
       { uid: user._id, sid: newSession._id },
-      JWT_ACCESS_SECRET_KEY,
+      SECRET_KEY,
       { expiresIn: '1h' }
     );
     const newRefreshToken = jwt.sign(
@@ -45,7 +45,7 @@ const refreshToken = async (req, res) => {
         uid: user._id,
         sid: newSession._id,
       },
-      JWT_REFRESH_SECRET_KEY,
+      REFRESH_SECRET_KEY,
       { expiresIn: '30d' }
     );
 
