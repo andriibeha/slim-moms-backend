@@ -10,4 +10,5 @@ module.exports = {
   ctrlWrapper,
   userRegisterValidation,
   userLoginValidation,
+  auth,
 };
