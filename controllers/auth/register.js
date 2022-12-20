@@ -1,5 +1,5 @@
 const { User } = require('../../models');
-// const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const { RequestError } = require('../../helpers');
 
 const register = async (req, res) => {
@@ -9,17 +9,17 @@ const register = async (req, res) => {
   if (user) {
     throw new RequestError('Email in use');
   }
-  // const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+  const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
-  // const result = await User.create({
-  //   password: hashPassword,
-  //   email,
-  //   name,
-  // });
+ await User.create({
+    password:hashPassword,
+    email,
+    name,
+  });
 
-  const newUser = new User({ name, email });
-  newUser.setPassword(password);
-  newUser.save();
+  // const newUser = new User({ name, email });
+  // newUser.setPassword(password);
+  // newUser.save();
 
   res.status(201).json({
     status: 'Created',
@@ -31,6 +31,7 @@ const register = async (req, res) => {
       },
     },
   });
+  
 };
 
 module.exports = register;
