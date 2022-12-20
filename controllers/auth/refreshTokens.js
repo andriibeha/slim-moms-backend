@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const { SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
 const refreshToken = async (req, res) => {
+  console.log('RefreshToken');
   const authHeader = req.get('Authorization');
   if (authHeader) {
     const activeSession = await Session.findById(req.body.sid);
