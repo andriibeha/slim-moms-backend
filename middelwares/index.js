@@ -1,7 +1,7 @@
 const validation = require('./validation');
 const ctrlWrapper = require('./ctrlWrapper');
 const userRegisterValidation = require('./userRegisterValidation');
-const userLoginValidation = require('./UserLoginValidation');
+const userLoginValidation = require('./userLoginValidation');
 const auth = require('./auth');
 
 module.exports = {
@@ -10,5 +10,4 @@ module.exports = {
   ctrlWrapper,
   userRegisterValidation,
   userLoginValidation,
-  auth,
 };
