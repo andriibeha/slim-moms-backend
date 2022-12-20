@@ -4,7 +4,7 @@ const Joi = require('joi');
 const dailyProductSchema = Schema({
   date: {
     type: String,
-    default: new Date().toLocaleDateString('fr-CA'),
+    default: new Date().toLocaleDateString('da-DK'),
   },
   product: {
     type: String,
@@ -14,10 +14,10 @@ const dailyProductSchema = Schema({
     type: Number,
     required: true,
   },
-  // calories: {
-  //   type: Number,
-  //   required: [true],
-  // },
+  calories: {
+    type: Number,
+    required: true,
+  },
   // owner: {
   //   type: Schema.Types.ObjectId,
   //   ref: "user",
