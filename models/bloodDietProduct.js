@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const Joi = require('joi');
 
 const bloodDietProductsSchemaModel = Schema(
   {
@@ -23,4 +24,12 @@ const bloodDietProductsSchemaModel = Schema(
 
 const BloodDietProduct = model('product', bloodDietProductsSchemaModel);
 
-module.exports = { BloodDietProduct };
+const getBloodDietSchema = Joi.object({
+  height: Joi.number().integer().required(),
+  age: Joi.number().integer().required(),
+  cWeight: Joi.number().integer().required(),
+  dWeight: Joi.number().integer().required(),
+  blood: Joi.number().integer().required(),
+});
+
+module.exports = { BloodDietProduct, getBloodDietSchema };

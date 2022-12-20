@@ -4,11 +4,12 @@ const { bloodDietProducts: ctrl } = require('../../controllers');
 const {
   bloodDietProductsUser,
   queryProducts,
-  allProducts
+  allProducts,
 } = require('../../controllers/bloodDietProductUser/bloodDietProductUser');
-const { ctrlWrapper } = require('../../middelwares');
+const { ctrlWrapper, validation } = require('../../middelwares');
+const { getBloodDietSchema } = require('../../models/bloodDietProduct');
 
-router.get('/', ctrlWrapper(ctrl.getDiet));
+router.post('/', validation(getBloodDietSchema), ctrlWrapper(ctrl.getDiet));
 router.get('/all', ctrlWrapper(allProducts));
 router.get('/all/query', ctrlWrapper(queryProducts));
 router.get('/:id', ctrlWrapper(bloodDietProductsUser));
