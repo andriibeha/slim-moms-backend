@@ -18,7 +18,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/auth', authRouter);
-app.use('/api/dailyproducts', dailyproductsRouter);
+app.use('/api/diary', dailyproductsRouter);
 app.use('/api/bloodproducts', bloodDietProductsRouter);
 
 //Swager
