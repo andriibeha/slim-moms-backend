@@ -4,7 +4,7 @@ const Joi = require('joi');
 const dailyProductSchema = Schema({
   date: {
     type: String,
-    default: new Date().toLocaleDateString('da-DK'),
+    default: new Date(),
   },
   product: {
     type: String,
@@ -18,10 +18,10 @@ const dailyProductSchema = Schema({
     type: Number,
     required: true,
   },
-  // owner: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: "user",
-  // },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'user',
+  },
 });
 
 const joiSchema = Joi.object({

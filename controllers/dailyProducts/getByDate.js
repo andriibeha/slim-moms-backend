@@ -2,9 +2,9 @@ const { DailyProduct } = require('../../models');
 const { RequestError } = require('../../helpers');
 
 const getByDate = async (req, res) => {
-  // const { _id } = req.user;
+  const { _id } = req.user;
   const { date } = req.query;
-  const result = await DailyProduct.find({ date });
+  const result = await DailyProduct.find({ date, owner: _id });
   if (!result.length) {
     throw RequestError(404, 'Not found');
   }
