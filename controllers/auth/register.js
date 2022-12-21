@@ -21,6 +21,7 @@ const register = async (req, res) => {
   // newUser.setPassword(password);
   // newUser.save();
 
+
   res.status(201).json({
     status: 'Created',
     code: 201,
@@ -32,6 +33,7 @@ const register = async (req, res) => {
     },
   });
   
+
 };
 
 module.exports = register;
