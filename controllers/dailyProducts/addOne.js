@@ -2,7 +2,6 @@ const { DailyProduct, BloodDietProduct } = require('../../models');
 
 const getProducts = async () => {
   const result = await BloodDietProduct.find({});
-
   return result;
 };
 
@@ -35,8 +34,8 @@ const addOne = async (req, res) => {
       duplicateProduct._id,
       {
         product: duplicateProduct.product,
-        weight: Math.floor(duplicateProduct.weight + weight),
-        calories: Math.floor(duplicateProduct.calories + calories),
+        weight: Math.round(duplicateProduct.weight + weight),
+        calories: Math.round(duplicateProduct.calories + calories),
       },
       {
         new: true,
