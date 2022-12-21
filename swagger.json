@@ -14,12 +14,59 @@
 
   "tags": [
     {
+      "name": "Auth",
+      "descriptrion": "Auth endpoints"
+    },
+    {
       "name": "Products",
       "descriptrion": "Products endpoints"
     }
   ],
 
   "paths": {
+    "/api/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User registration",
+
+        "parameters": [],
+        "security": [],
+
+        "requestBody": {
+          "description": "Registration object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+
+          "404": {
+            "description": "Bad request (invalid request bodu)"
+          },
+
+          "409": {
+            "description": "Provided email already exists"
+          }
+        }
+      }
+    },
+
     "/api/dailyproducts": {
       "post": {
         "tags": ["Products"],
@@ -40,11 +87,68 @@
           },
 
           "404": {
-            "descriptrion": "Bad request (invalid request bodu)",
-            "content": {}
+            "descriptrion": "Bad request (invalid request bodu)"
           }
         }
       }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": [true],
+        "properties": {
+          "name": {
+            "type": "string",
+            "descriptrion": "User name",
+            "example": "Bob"
+          },
+          "email": {
+            "type": "string",
+            "descriptrion": "User email",
+            "example": "bob@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "descriptrion": "User password",
+            "example": "1234567"
+          }
+        }
+      },
+
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "descriptrion": "Status code",
+            "data": {
+              "user": "user name",
+              "email": "user email"
+            },
+            "example": {
+              "status": "Created",
+              "code": 201,
+              "data": {
+                "user": {
+                  "name": "asd",
+                  "email": "asd1@gmail.com"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "securitySchemas": {
+    "Bearer": {
+      "type": "http",
+      "schema": "bearer",
+      "bearerFormat": "JWT"
     }
   }
 }
