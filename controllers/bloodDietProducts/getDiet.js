@@ -11,17 +11,28 @@ const getDiet = async (req, res, next) => {
   );
 
   const data = await BloodDietProduct.find();
-  
-  const products = data
-    .reduce((array, item) => {
-      if (item.groupBloodNotAllowed[blood]) {
-        array.push(item);
-      }
-      return array;
-    }, [])
-    .slice(0, 4);
 
-  if (!products.length) {
+  const allProductsArray = data.filter(
+    item => item.groupBloodNotAllowed[blood] === true
+  );
+
+  function randomNumber(min, max) {
+    min = 0;
+    max = allProductsArray.length;
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+  let products = [];
+
+  if (allProductsArray.length > 4) {
+    for (let i = 1; i <= 4; i += 1) {
+      products.push(allProductsArray[randomNumber()]);
+    }
+  } else {
+    products = allProductsArray;
+  }
+
+  if (!allProductsArray.length) {
     throw RequestError(404, 'Not found');
   }
 
