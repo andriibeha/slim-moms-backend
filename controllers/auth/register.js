@@ -11,19 +11,18 @@ const register = async (req, res) => {
   }
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
-  const result = await User.create({
-    password: hashPassword,
+ await User.create({
+    password:hashPassword,
     email,
     name,
   });
 
-  res.status(201).json({ result });
+  // const newUser = new User({ name, email });
+  // newUser.setPassword(password);
+  // newUser.save();
 
-  /*   const newUser = new User({ name, email });
-  newUser.setPassword(password);
-  newUser.save(); */
 
-  /*  res.status(201).json({
+  res.status(201).json({
     status: 'Created',
     code: 201,
     data: {
@@ -32,7 +31,9 @@ const register = async (req, res) => {
         email,
       },
     },
-  }); */
+  });
+  
+
 };
 
 module.exports = register;
