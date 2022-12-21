@@ -3,8 +3,9 @@ const { RequestError } = require('../../helpers');
 
 const removeById = async (req, res) => {
   const { productId } = req.params;
-
-  const removedProduct = await DailyProduct.findByIdAndRemove(productId);
+  const { _id } = req.user;
+  
+  const removedProduct = await DailyProduct.findByIdAndRemove(productId, _id);
 
   if (!removedProduct) {
     throw RequestError(404, `Product with id: '${productId}'  not found`);

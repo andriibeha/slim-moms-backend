@@ -7,7 +7,8 @@ const getProducts = async () => {
 };
 
 const addOne = async (req, res) => {
-  // const { _id } = req.user;
+  const { _id } = req.user;
+
   const { weight, product, date } = req.body;
   const products = await getProducts();
   const productCaloricity = products.find(
@@ -15,7 +16,8 @@ const addOne = async (req, res) => {
   ).calories;
   const calories = (productCaloricity * weight) / 100;
 
-  const savedProduct = await DailyProduct.find({ date });
+  const savedProduct = await DailyProduct.find({ date, owner: _id });
+  // console.log(savedProduct);
 
   const duplicateProduct = await savedProduct.find(
     it => it.product === product
@@ -26,6 +28,7 @@ const addOne = async (req, res) => {
     result = await DailyProduct.create({
       ...req.body,
       calories,
+      owner: _id,
     });
   } else {
     result = await DailyProduct.findByIdAndUpdate(
