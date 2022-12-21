@@ -22,7 +22,6 @@ const getByDate = async (req, res) => {
   const dateFirstAdded = (await products).sort((a, b) => {
     return new Date(a.date) - new Date(b.date);
   })[0].date;
-  console.log(dateFirstAdded);
 
   res.json({
     status: 'success',
