@@ -4,7 +4,7 @@
   "info": {
     "version": "1.0.11",
     "title": "Swagger Slim Moms - OpenAPI 3.0",
-    "descriptrion": "All about Slim Moms API"
+    "description": "All about Slim Moms API"
   },
 
   "consume": ["application/json"],
@@ -15,11 +15,11 @@
   "tags": [
     {
       "name": "Auth",
-      "descriptrion": "Auth endpoints"
+      "description": "Auth endpoints"
     },
     {
-      "name": "Products",
-      "descriptrion": "Products endpoints"
+      "name": "Daily-productі",
+      "description": "Daily products for diary page endpoints"
     }
   ],
 
@@ -67,27 +67,144 @@
       }
     },
 
-    "/api/dailyproducts": {
+    "/api/auth/login": {
       "post": {
-        "tags": ["Products"],
+        "tags": ["Auth"],
+        "summary": "User login",
+
+        "parameters": [],
+        "security": [],
+
+        "requestBody": {
+          "description": "Login object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "Invalid username or password supplied"
+          }
+        }
+      }
+    },
+
+    "/api/auth/logout": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "User logout",
+
+        "parameters": [],
+        "security": [],
+
+        "requestBody": {
+          "description": "logout object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "Invalid username or password supplied"
+          }
+        }
+      }
+    },
+
+    "/api/auth/refresh": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Refresh token",
+
+        "parameters": [],
+        "security": [],
+
+        "requestBody": {
+          "description": "Refresh object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": ""
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": ""
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "Invalid username or password supplied"
+          }
+        }
+      }
+    },
+
+    "/api/diary": {
+      "post": {
+        "tags": ["Daily-productі"],
         "summary": "Daily products",
 
         "parameters": [],
         "security": [],
 
         "requestBody": {
-          "descriptrion": "daily products object",
+          "description": "daily products object",
           "required": true,
           "content": {}
         },
 
         "responses": {
           "201": {
-            "descriptrion": "test"
+            "description": "test"
           },
 
           "404": {
-            "descriptrion": "Bad request (invalid request bodu)"
+            "description": "Bad request (invalid request bodu)"
           }
         }
       }
@@ -102,28 +219,27 @@
         "properties": {
           "name": {
             "type": "string",
-            "descriptrion": "User name",
+            "description": "User name",
             "example": "Bob"
           },
           "email": {
             "type": "string",
-            "descriptrion": "User email",
+            "description": "User email",
             "example": "bob@gmail.com"
           },
           "password": {
             "type": "string",
-            "descriptrion": "User password",
+            "description": "User password",
             "example": "1234567"
           }
         }
       },
-
       "RegistrationResponse": {
         "type": "object",
         "properties": {
-          "status": {
+          "response": {
             "type": "string",
-            "descriptrion": "Status code",
+            "description": "Status code",
             "data": {
               "user": "user name",
               "email": "user email"
@@ -135,6 +251,82 @@
                 "user": {
                   "name": "asd",
                   "email": "asd1@gmail.com"
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "LoginRequest": {
+        "type": "object",
+        "required": [true],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User email",
+            "example": "bob@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User password",
+            "example": "1234567"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "response": {
+            "type": "object",
+            "description": "Status code",
+            "example": {
+              "status": "success",
+              "code": 200,
+              "data": {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2M2ExNzY2MzkxYjFjODU0ZTQ5Y2MxMjkiLCJzaWQiOiI2M2EzMWNjNTA2NmVjYmYxZmE4NWJmZGMiLCJpYXQiOjE2NzE2MzQxMTcsImV4cCI6MTY3MTYzNzcxN30.3vm1XXMwW-BzQsqVPTBmUqhRlMJbjH9g71wyh5DaVoU",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2M2ExNzY2MzkxYjFjODU0ZTQ5Y2MxMjkiLCJzaWQiOiI2M2EzMWNjNTA2NmVjYmYxZmE4NWJmZGMiLCJpYXQiOjE2NzE2MzQxMTcsImV4cCI6MTY3MzM2MjExN30.j3hbHqF_7j8gEnfYrV1-7coBy-_yizgUiC779o5n45o",
+                "user": {
+                  "email": "bob@gmail.com",
+                  "name": "Bob"
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "LogoutRequest": {
+        "type": "object",
+        "required": [true],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User email",
+            "example": "bob@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User password",
+            "example": "1234567"
+          }
+        }
+      },
+      "LogoutResponse": {
+        "type": "object",
+        "properties": {
+          "response": {
+            "type": "object",
+            "description": "Status code",
+            "example": {
+              "status": "success",
+              "code": 200,
+              "data": {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2M2ExNzY2MzkxYjFjODU0ZTQ5Y2MxMjkiLCJzaWQiOiI2M2EzMWNjNTA2NmVjYmYxZmE4NWJmZGMiLCJpYXQiOjE2NzE2MzQxMTcsImV4cCI6MTY3MTYzNzcxN30.3vm1XXMwW-BzQsqVPTBmUqhRlMJbjH9g71wyh5DaVoU",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2M2ExNzY2MzkxYjFjODU0ZTQ5Y2MxMjkiLCJzaWQiOiI2M2EzMWNjNTA2NmVjYmYxZmE4NWJmZGMiLCJpYXQiOjE2NzE2MzQxMTcsImV4cCI6MTY3MzM2MjExN30.j3hbHqF_7j8gEnfYrV1-7coBy-_yizgUiC779o5n45o",
+                "user": {
+                  "email": "bob@gmail.com",
+                  "name": "Bob"
                 }
               }
             }

@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const RequestError = require('../helpers/RequstError');
 
 const userLoginValidation = (req, res, next) => {
   const schema = Joi.object({
@@ -14,7 +15,7 @@ const userLoginValidation = (req, res, next) => {
   const validationResult = schema.validate(req.body);
 
   if (validationResult.error) {
-    return res.status(400).json({ status: validationResult.error.details });
+    return res.status(400).json({ message: validationResult.error.message });
   }
 
   next();

@@ -7,23 +7,27 @@ const getProducts = async () => {
 };
 
 const addOne = async (req, res) => {
+  console.log('##Add One');
+
   const { _id } = req.user;
 
   const { weight, product, date } = req.body;
   const products = await getProducts();
+
   const productCaloricity = products.find(
     it => it.title.ua === product
   ).calories;
+
   const calories = (productCaloricity * weight) / 100;
 
   const savedProduct = await DailyProduct.find({ date, owner: _id });
-  // console.log(savedProduct);
 
   const duplicateProduct = await savedProduct.find(
     it => it.product === product
   );
 
   let result;
+
   if (!duplicateProduct) {
     result = await DailyProduct.create({
       ...req.body,
@@ -38,6 +42,7 @@ const addOne = async (req, res) => {
         weight: Math.floor(duplicateProduct.weight + weight),
         calories: Math.floor(duplicateProduct.calories + calories),
       },
+
       {
         new: true,
       }
@@ -58,33 +63,3 @@ const addOne = async (req, res) => {
 };
 
 module.exports = addOne;
-
-// const { DailyProduct, BloodDietProduct } = require('../../models');
-
-// const getProducts = async () => {
-//   const result = await BloodDietProduct.find({});
-
-//   return result;
-// };
-
-// const addOne = async (req, res) => {
-//   // const { _id } = req.user;
-//   const { weight, product } = req.body;
-//   const products = await getProducts();
-//   const productCaloricity = products.find(
-//     it => it.title.ua === product
-//   ).calories;
-//   const calories = (productCaloricity * weight) / 100;
-
-//   const result = await DailyProduct.create({
-//     ...req.body,
-//     calories,
-//   });
-//   res.status(201).json({
-//     status: 'succes',
-//     code: 201,
-//     data: { result },
-//   });
-// };
-
-// module.exports = addOne;
