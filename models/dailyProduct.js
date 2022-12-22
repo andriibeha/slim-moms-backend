@@ -3,7 +3,7 @@ const Joi = require('joi');
 
 const dailyProductSchema = Schema({
   date: {
-    type: String,
+    type: Date,
     default: new Date(),
   },
   product: {
@@ -25,7 +25,7 @@ const dailyProductSchema = Schema({
 });
 
 const joiSchema = Joi.object({
-  date: Joi.string(),
+  date: Joi.date(),
   product: Joi.string().required(),
   weight: Joi.number().required(),
 });
