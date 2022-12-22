@@ -1,10 +1,10 @@
 const { Schema, model } = require('mongoose');
-const Joi = require('joi');
+const Joi = require('joi').extend(require('@joi/date'));
 
 const dailyProductSchema = Schema({
   date: {
-    type: String,
-    default: new Date(),
+    type: Date,
+    required: true,
   },
   product: {
     type: String,
@@ -25,7 +25,7 @@ const dailyProductSchema = Schema({
 });
 
 const joiSchema = Joi.object({
-  date: Joi.string(),
+  date: Joi.date().format('YYYY.MM.DDZ').required(),
   product: Joi.string().required(),
   weight: Joi.number().required(),
 });
