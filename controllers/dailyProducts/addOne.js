@@ -7,8 +7,6 @@ const getProducts = async () => {
 };
 
 const addOne = async (req, res) => {
-  console.log('##Add One');
-
   const { _id } = req.user;
 
   const { weight, product, date } = req.body;

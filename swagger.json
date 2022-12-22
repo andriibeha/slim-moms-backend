@@ -19,7 +19,7 @@
     },
     {
       "name": "Daily-productі",
-      "description": "Daily products for diary page endpoints"
+      "description": "Daily products"
     }
   ],
 
@@ -56,12 +56,8 @@
             }
           },
 
-          "404": {
-            "description": "Bad request (invalid request bodu)"
-          },
-
-          "409": {
-            "description": "Provided email already exists"
+          "400": {
+            "description": "Bad request (invalid request body)"
           }
         }
       }
@@ -112,19 +108,7 @@
         "summary": "User logout",
 
         "parameters": [],
-        "security": [],
-
-        "requestBody": {
-          "description": "logout object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
-              }
-            }
-          }
-        },
+        "security": [{ "Bearer": [] }],
 
         "responses": {
           "200": {
@@ -132,53 +116,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
+                  "$ref": "#/components/schemas/LogoutResponse"
                 }
               }
             }
           },
 
           "400": {
-            "description": "Invalid username or password supplied"
-          }
-        }
-      }
-    },
-
-    "/api/auth/refresh": {
-      "post": {
-        "tags": ["Auth"],
-        "summary": "Refresh token",
-
-        "parameters": [],
-        "security": [],
-
-        "requestBody": {
-          "description": "Refresh object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": ""
-              }
-            }
-          }
-        },
-
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": ""
-                }
-              }
-            }
-          },
-
-          "400": {
-            "description": "Invalid username or password supplied"
+            "description": "Invalid signature (bad token)"
           }
         }
       }
@@ -187,24 +132,62 @@
     "/api/diary": {
       "post": {
         "tags": ["Daily-productі"],
-        "summary": "Daily products",
+        "summary": "Add daily product",
 
         "parameters": [],
-        "security": [],
+        "security": [{ "Bearer": [] }],
 
         "requestBody": {
-          "description": "daily products object",
+          "description": "Product object",
           "required": true,
-          "content": {}
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddDailyProductRequest"
+              }
+            }
+          }
         },
 
         "responses": {
           "201": {
-            "description": "test"
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddDailyProductResponse"
+                }
+              }
+            }
           },
 
-          "404": {
-            "description": "Bad request (invalid request bodu)"
+          "400": {
+            "description": "Bad request (invalid request body)"
+          }
+        }
+      },
+
+      "get": {
+        "tags": ["Daily-productі"],
+        "summary": "Get daily product",
+
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddDailyProductResponse"
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "Bad request (invalid request body)"
           }
         }
       }
@@ -249,8 +232,8 @@
               "code": 201,
               "data": {
                 "user": {
-                  "name": "asd",
-                  "email": "asd1@gmail.com"
+                  "name": "bob",
+                  "email": "bob@gmail.com"
                 }
               }
             }
@@ -284,8 +267,7 @@
               "status": "success",
               "code": 200,
               "data": {
-                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2M2ExNzY2MzkxYjFjODU0ZTQ5Y2MxMjkiLCJzaWQiOiI2M2EzMWNjNTA2NmVjYmYxZmE4NWJmZGMiLCJpYXQiOjE2NzE2MzQxMTcsImV4cCI6MTY3MTYzNzcxN30.3vm1XXMwW-BzQsqVPTBmUqhRlMJbjH9g71wyh5DaVoU",
-                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2M2ExNzY2MzkxYjFjODU0ZTQ5Y2MxMjkiLCJzaWQiOiI2M2EzMWNjNTA2NmVjYmYxZmE4NWJmZGMiLCJpYXQiOjE2NzE2MzQxMTcsImV4cCI6MTY3MzM2MjExN30.j3hbHqF_7j8gEnfYrV1-7coBy-_yizgUiC779o5n45o",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYTQ3YWU3NjU3YjBjM2Q4YzlmNDcwMCIsImlhdCI6MTY3MTcyNTQ5OCwiZXhwIjoxNjcxNzI5MDk4fQ.TFrEj-tRTCSsJz3i8kG-k6iOx_9NY7W0UeJuTXbw7OM",
                 "user": {
                   "email": "bob@gmail.com",
                   "name": "Bob"
@@ -296,22 +278,6 @@
         }
       },
 
-      "LogoutRequest": {
-        "type": "object",
-        "required": [true],
-        "properties": {
-          "email": {
-            "type": "string",
-            "description": "User email",
-            "example": "bob@gmail.com"
-          },
-          "password": {
-            "type": "string",
-            "description": "User password",
-            "example": "1234567"
-          }
-        }
-      },
       "LogoutResponse": {
         "type": "object",
         "properties": {
@@ -319,17 +285,60 @@
             "type": "object",
             "description": "Status code",
             "example": {
-              "status": "success",
-              "code": 200,
-              "data": {
-                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2M2ExNzY2MzkxYjFjODU0ZTQ5Y2MxMjkiLCJzaWQiOiI2M2EzMWNjNTA2NmVjYmYxZmE4NWJmZGMiLCJpYXQiOjE2NzE2MzQxMTcsImV4cCI6MTY3MTYzNzcxN30.3vm1XXMwW-BzQsqVPTBmUqhRlMJbjH9g71wyh5DaVoU",
-                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2M2ExNzY2MzkxYjFjODU0ZTQ5Y2MxMjkiLCJzaWQiOiI2M2EzMWNjNTA2NmVjYmYxZmE4NWJmZGMiLCJpYXQiOjE2NzE2MzQxMTcsImV4cCI6MTY3MzM2MjExN30.j3hbHqF_7j8gEnfYrV1-7coBy-_yizgUiC779o5n45o",
-                "user": {
-                  "email": "bob@gmail.com",
-                  "name": "Bob"
-                }
-              }
+              "status": "success"
             }
+          }
+        }
+      },
+
+      "AddDailyProductRequest": {
+        "type": "object",
+        "required": [true],
+        "properties": {
+          "product": {
+            "type": "string",
+            "description": "product name",
+            "example": "Омлет із сиром"
+          },
+          "weight": {
+            "type": "number",
+            "description": "product weight",
+            "example": "100"
+          }
+        }
+      },
+      "AddDailyProductResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "succes"
+          },
+          "code": {
+            "type": "number",
+            "example": "201"
+          },
+          "data": {
+            "type": "object",
+            "example": "{data about product: date, product, weight, calories, owner, _id}"
+          }
+        }
+      },
+
+      "GetDailyProductResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "succes"
+          },
+          "code": {
+            "type": "number",
+            "example": "201"
+          },
+          "data": {
+            "type": "object",
+            "example": "{data about product: date, product, weight, calories, owner, _id}"
           }
         }
       }
