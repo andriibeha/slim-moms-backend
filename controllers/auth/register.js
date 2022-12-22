@@ -7,20 +7,16 @@ const register = async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user) {
-    throw new RequestError('Email in use');
+    throw RequestError(404, 'Email in use');
   }
+
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
- await User.create({
-    password:hashPassword,
+  await User.create({
+    password: hashPassword,
     email,
     name,
   });
-
-  // const newUser = new User({ name, email });
-  // newUser.setPassword(password);
-  // newUser.save();
-
 
   res.status(201).json({
     status: 'Created',
@@ -32,8 +28,6 @@ const register = async (req, res) => {
       },
     },
   });
-  
-
 };
 
 module.exports = register;

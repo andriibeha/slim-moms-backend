@@ -4,7 +4,7 @@
   "info": {
     "version": "1.0.11",
     "title": "Swagger Slim Moms - OpenAPI 3.0",
-    "descriptrion": "All about Slim Moms API"
+    "description": "All about Slim Moms API"
   },
 
   "consume": ["application/json"],
@@ -14,37 +14,342 @@
 
   "tags": [
     {
-      "name": "Products",
-      "descriptrion": "Products endpoints"
+      "name": "Auth",
+      "description": "Auth endpoints"
+    },
+    {
+      "name": "Daily-productі",
+      "description": "Daily products"
     }
   ],
 
   "paths": {
-    "/api/dailyproducts": {
+    "/api/auth/register": {
       "post": {
-        "tags": ["Products"],
-        "summary": "Daily products",
+        "tags": ["Auth"],
+        "summary": "User registration",
 
         "parameters": [],
         "security": [],
 
         "requestBody": {
-          "descriptrion": "daily products object",
+          "description": "Registration object",
           "required": true,
-          "content": {}
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
         },
 
         "responses": {
           "201": {
-            "descriptrion": "test"
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
           },
 
-          "404": {
-            "descriptrion": "Bad request (invalid request bodu)",
-            "content": {}
+          "400": {
+            "description": "Bad request (invalid request body)"
           }
         }
       }
+    },
+
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User login",
+
+        "parameters": [],
+        "security": [],
+
+        "requestBody": {
+          "description": "Login object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "Invalid username or password supplied"
+          }
+        }
+      }
+    },
+
+    "/api/auth/logout": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "User logout",
+
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutResponse"
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "Invalid signature (bad token)"
+          }
+        }
+      }
+    },
+
+    "/api/diary": {
+      "post": {
+        "tags": ["Daily-productі"],
+        "summary": "Add daily product",
+
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+
+        "requestBody": {
+          "description": "Product object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddDailyProductRequest"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddDailyProductResponse"
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "Bad request (invalid request body)"
+          }
+        }
+      },
+
+      "get": {
+        "tags": ["Daily-productі"],
+        "summary": "Get daily product",
+
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddDailyProductResponse"
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "Bad request (invalid request body)"
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": [true],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User name",
+            "example": "Bob"
+          },
+          "email": {
+            "type": "string",
+            "description": "User email",
+            "example": "bob@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User password",
+            "example": "1234567"
+          }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "response": {
+            "type": "string",
+            "description": "Status code",
+            "data": {
+              "user": "user name",
+              "email": "user email"
+            },
+            "example": {
+              "status": "Created",
+              "code": 201,
+              "data": {
+                "user": {
+                  "name": "bob",
+                  "email": "bob@gmail.com"
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "LoginRequest": {
+        "type": "object",
+        "required": [true],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User email",
+            "example": "bob@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User password",
+            "example": "1234567"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "response": {
+            "type": "object",
+            "description": "Status code",
+            "example": {
+              "status": "success",
+              "code": 200,
+              "data": {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYTQ3YWU3NjU3YjBjM2Q4YzlmNDcwMCIsImlhdCI6MTY3MTcyNTQ5OCwiZXhwIjoxNjcxNzI5MDk4fQ.TFrEj-tRTCSsJz3i8kG-k6iOx_9NY7W0UeJuTXbw7OM",
+                "user": {
+                  "email": "bob@gmail.com",
+                  "name": "Bob"
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "LogoutResponse": {
+        "type": "object",
+        "properties": {
+          "response": {
+            "type": "object",
+            "description": "Status code",
+            "example": {
+              "status": "success"
+            }
+          }
+        }
+      },
+
+      "AddDailyProductRequest": {
+        "type": "object",
+        "required": [true],
+        "properties": {
+          "product": {
+            "type": "string",
+            "description": "product name",
+            "example": "Омлет із сиром"
+          },
+          "weight": {
+            "type": "number",
+            "description": "product weight",
+            "example": "100"
+          }
+        }
+      },
+      "AddDailyProductResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "succes"
+          },
+          "code": {
+            "type": "number",
+            "example": "201"
+          },
+          "data": {
+            "type": "object",
+            "example": "{data about product: date, product, weight, calories, owner, _id}"
+          }
+        }
+      },
+
+      "GetDailyProductResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "succes"
+          },
+          "code": {
+            "type": "number",
+            "example": "201"
+          },
+          "data": {
+            "type": "object",
+            "example": "{data about product: date, product, weight, calories, owner, _id}"
+          }
+        }
+      }
+    }
+  },
+
+  "securitySchemas": {
+    "Bearer": {
+      "type": "http",
+      "schema": "bearer",
+      "bearerFormat": "JWT"
     }
   }
 }

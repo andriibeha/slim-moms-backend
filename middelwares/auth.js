@@ -4,24 +4,32 @@ const jwt = require('jsonwebtoken');
 const { SECRET_KEY } = process.env;
 
 const auth = async (req, res, next) => {
-  const { authorization = '' } = req.headers;
-  const [bearer, token] = authorization.split(' ');
   try {
+    const { authorization = '' } = req.headers;
+    const [bearer = '', token = ''] = authorization.split(' ');
+
     if (bearer !== 'Bearer') {
-      throw new RequestError('Not authorized');
+      throw RequestError(401, 'Invalid token');
     }
-    const { id } = jwt.verify(token, SECRET_KEY);
-    const user = await User.findById(id);
-    if (!user || !user.token) {
-      throw new RequestError('Not authorized');
+
+    try {
+      const { id } = jwt.verify(token, SECRET_KEY);
+
+      const user = await User.findById(id);
+
+      if (!user) {
+        throw RequestError(404, 'Unautorized');
+      }
+
+      req.user = user;
+
+      next();
+    } catch (error) {
+      throw RequestError(401, error.message);
     }
-    req.user = user;
-    next();
   } catch (error) {
-    if (error.message === 'Invalid sugnature') {
-      error.status = 401;
-    }
     next(error);
   }
 };
+
 module.exports = auth;

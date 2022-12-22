@@ -9,10 +9,18 @@ const getProducts = async () => {
 const getByDate = async (req, res) => {
   const { _id } = req.user;
   const { date } = req.query;
-  const result = await DailyProduct.find({ date, owner: _id });
+  console.log('#DATA', date);
+
+  // const result = await DailyProduct.find({ date, owner: _id });
+
+  result = await DailyProduct.find();
+
+  console.log(result);
+
   if (!result.length) {
     throw RequestError(404, 'Not found');
   }
+
   const caloricityPerDay = result.reduce((acc, it) => {
     acc += it.calories;
     return acc;
