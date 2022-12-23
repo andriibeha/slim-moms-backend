@@ -21,7 +21,6 @@ app.use('/api/auth', authRouter);
 app.use('/api/diary', dailyproductsRouter);
 app.use('/api/bloodproducts', bloodDietProductsRouter);
 
-//Swager
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((_, res) => {

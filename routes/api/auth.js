@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { joiSessionSchema } = require('../../models/session');
-
 //Розкидати нормально по папках як має бути по архітектурі. (ctrlWrapper має бути в хелперсах і тд тп)
+
+const ctrl = require('../../controllers/auth');
 const {
   ctrlWrapper,
   userRegisterValidation,
@@ -11,23 +12,13 @@ const {
   validation,
 } = require('../../middelwares');
 
-const {
-  register,
-  login,
-  logout,
-  refreshTokens,
-} = require('../../controllers/auth');
-
-router.post('/register', userRegisterValidation, ctrlWrapper(register));
-
-router.post('/login', userLoginValidation, ctrlWrapper(login));
-
-router.get('/logout', auth, ctrlWrapper(logout));
-
+router.post('/register', userRegisterValidation, ctrlWrapper(ctrl.register));
+router.post('/login', userLoginValidation, ctrlWrapper(ctrl.login));
+router.get('/logout', auth, ctrlWrapper(ctrl.logout));
 router.post(
   '/refresh',
   validation(joiSessionSchema),
-  ctrlWrapper(refreshTokens)
+  ctrlWrapper(ctrl.refreshTokens)
 );
 
 module.exports = router;

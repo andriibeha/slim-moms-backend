@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { dailyProducts: ctrl } = require('../../controllers');
+const ctrl = require('../../controllers/dailyProducts');
 const { ctrlWrapper, validation, auth } = require('../../middelwares');
 const { joiSchema } = require('../../models/dailyProduct');
 

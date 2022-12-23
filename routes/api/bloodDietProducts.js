@@ -1,17 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { bloodDietProducts: ctrl } = require('../../controllers');
-const {
-  bloodDietProductsUser,
-  queryProducts,
-  allProducts,
-} = require('../../controllers/bloodDietProductUser/bloodDietProductUser');
+const { getDiet } = require('../../controllers/bloodDietProducts');
+const ctrl = require('../../controllers/bloodDietProductUser');
 const { ctrlWrapper, validation } = require('../../middelwares');
 const { getBloodDietSchema } = require('../../models/bloodDietProduct');
 
-router.post('/', validation(getBloodDietSchema), ctrlWrapper(ctrl.getDiet));
-router.get('/all', ctrlWrapper(allProducts));
-router.get('/all/query', ctrlWrapper(queryProducts));
-router.get('/:id', ctrlWrapper(bloodDietProductsUser));
+router.post('/', validation(getBloodDietSchema), ctrlWrapper(getDiet));
+router.get('/all', ctrlWrapper(ctrl.allProducts));
+router.get('/all/query', ctrlWrapper(ctrl.queryProducts));
+router.get('/:id', ctrlWrapper(ctrl.bloodDietProductUser));
 
 module.exports = router;
