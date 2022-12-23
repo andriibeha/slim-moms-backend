@@ -18,12 +18,12 @@
       "description": "Auth endpoints"
     },
     {
-      "name": "Daily-productі",
+      "name": "Daily-products",
       "description": "Daily products"
     },
     {
-      "name": "Blood-products",
-      "description": "Blood Diet Products"
+      "name": "Daily-diet-products",
+      "description": "Daily diet products"
     }
   ],
 
@@ -135,7 +135,7 @@
 
     "/api/diary": {
       "post": {
-        "tags": ["Daily-productі"],
+        "tags": ["Daily-products"],
         "summary": "Add daily product",
 
         "parameters": [],
@@ -172,7 +172,7 @@
       },
 
       "get": {
-        "tags": ["Daily-productі"],
+        "tags": ["Daily-products"],
         "summary": "Get daily product by date",
 
         "parameters": [
@@ -205,7 +205,7 @@
       },
 
       "delete": {
-        "tags": ["Daily-productі"],
+        "tags": ["Daily-products"],
         "summary": "Delete product by id",
 
         "parameters": [
@@ -239,7 +239,7 @@
 
     "/api/bloodproducts": {
       "post": {
-        "tags": ["Blood-products"],
+        "tags": ["Daily-diet-products"],
         "summary": "Get Diet",
 
         "parameters": [],
@@ -282,7 +282,7 @@
 
     "/api/bloodproducts/all": {
       "get": {
-        "tags": ["Blood-products"],
+        "tags": ["Daily-diet-products"],
         "summary": "Get all diet produtcs",
 
         "parameters": [],
@@ -313,7 +313,7 @@
 
     "/api/bloodproducts/all/query": {
       "get": {
-        "tags": ["Blood-products"],
+        "tags": ["Daily-diet-products"],
         "summary": "Get query diet produtcs",
 
         "parameters": [
@@ -352,7 +352,7 @@
 
     "/api/bloodproducts/:id": {
       "get": {
-        "tags": ["Blood-products"],
+        "tags": ["Daily-diet-products"],
         "summary": "Get user diet produtcs",
 
         "parameters": [
