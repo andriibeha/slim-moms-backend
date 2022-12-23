@@ -5,7 +5,7 @@ const dailyProductSchema = Schema({
   date: {
     type: Date,
     default: new Date(),
-    required: true,
+    required: false,
   },
   product: {
     type: String,
@@ -26,7 +26,7 @@ const dailyProductSchema = Schema({
 });
 
 const joiSchema = Joi.object({
-  date: Joi.date().format('YYYY.MM.DDZ').required(),
+  date: Joi.date().format('YYYY.MM.DDZ'),
   product: Joi.string().required(),
   weight: Joi.number().required(),
 });

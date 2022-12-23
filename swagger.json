@@ -20,6 +20,10 @@
     {
       "name": "Daily-productі",
       "description": "Daily products"
+    },
+    {
+      "name": "Blood-products",
+      "description": "Blood Diet Products"
     }
   ],
 
@@ -169,9 +173,17 @@
 
       "get": {
         "tags": ["Daily-productі"],
-        "summary": "Get daily product",
+        "summary": "Get daily product by date",
 
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Date",
+            "in": "path",
+            "description": "Date in query param, add Z to end of your date",
+            "example": "2022-12-23T08:30:45.846Z",
+            "required": true
+          }
+        ],
         "security": [{ "Bearer": [] }],
 
         "responses": {
@@ -180,14 +192,198 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AddDailyProductResponse"
+                  "$ref": "#/components/schemas/GetDailyProductResponse"
                 }
               }
             }
           },
 
           "400": {
-            "description": "Bad request (invalid request body)"
+            "description": "Bad request (invalid request query)"
+          }
+        }
+      },
+
+      "delete": {
+        "tags": ["Daily-productі"],
+        "summary": "Delete product by id",
+
+        "parameters": [
+          {
+            "name": "ProductId",
+            "in": "path",
+            "description": "ProductId",
+            "required": true
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDailyProductResponse"
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "Bad request (invalid request query)"
+          }
+        }
+      }
+    },
+
+    "/api/bloodproducts": {
+      "post": {
+        "tags": ["Blood-products"],
+        "summary": "Get Diet",
+
+        "parameters": [],
+        "security": [],
+
+        "requestBody": {
+          "description": "Blood diet object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetDietProductRequest"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDietProductResponse"
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "Invalid request body"
+          },
+
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+
+    "/api/bloodproducts/all": {
+      "get": {
+        "tags": ["Blood-products"],
+        "summary": "Get all diet produtcs",
+
+        "parameters": [],
+        "security": [],
+
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllDietProductsResponse"
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "Invalid request"
+          },
+
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+
+    "/api/bloodproducts/all/query": {
+      "get": {
+        "tags": ["Blood-products"],
+        "summary": "Get query diet produtcs",
+
+        "parameters": [
+          {
+            "name": "title",
+            "in": "path",
+            "description": "title of search product",
+            "example": "Яйцо куриное (желток сухой)",
+            "required": true
+          }
+        ],
+        "security": [],
+
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQueryDietProductsResponse"
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "Invalid request"
+          },
+
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+
+    "/api/bloodproducts/:id": {
+      "get": {
+        "tags": ["Blood-products"],
+        "summary": "Get user diet produtcs",
+
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User id",
+            "example": "Яйцо куриное (желток сухой)",
+            "required": true
+          }
+        ],
+        "security": [],
+
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetQueryDietProductsResponse"
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "Invalid request"
+          },
+
+          "404": {
+            "description": "Not found"
           }
         }
       }
@@ -320,12 +516,78 @@
           },
           "data": {
             "type": "object",
-            "example": "{data about product: date, product, weight, calories, owner, _id}"
+            "example": {
+              "result": {
+                "date": "2022-12-23T08:30:45.846Z",
+                "product": "Омлет із сиром",
+                "weight": 120,
+                "calories": 410.4,
+                "owner": "63a47ae7657b0c3d8c9f4700",
+                "_id": "63a56ca376a6944b25434d8f",
+                "__v": 0
+              }
+            }
           }
         }
       },
 
       "GetDailyProductResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "example": {
+              "result": [
+                {
+                  "_id": "63a56ca376a6944b25434d8f",
+                  "date": "2022-12-23T08:30:45.846Z",
+                  "product": "Омлет із сиром",
+                  "weight": 120,
+                  "calories": 410.4,
+                  "owner": "63a47ae7657b0c3d8c9f4700",
+                  "__v": 0
+                }
+              ],
+              "date": "2022-12-23T08:30:45.846Z",
+              "caloricityPerDay": 410.4,
+              "dateFirstAdded": "2022-10-21T00:00:00.000Z"
+            }
+          }
+        }
+      },
+
+      "GetDietProductRequest": {
+        "type": "object",
+        "required": [true],
+        "properties": {
+          "height": {
+            "type": "number",
+            "description": "user height",
+            "example": 180
+          },
+          "age": {
+            "type": "number",
+            "description": "user age",
+            "example": 25
+          },
+          "cWeight": {
+            "type": "number",
+            "description": "user currently weight",
+            "example": 65
+          },
+          "dWeight": {
+            "type": "number",
+            "description": "user want weight",
+            "example": 60
+          },
+          "blood": {
+            "type": "number",
+            "description": "user blood type",
+            "example": 2
+          }
+        }
+      },
+      "GetDietProductResponse": {
         "type": "object",
         "properties": {
           "status": {
@@ -334,11 +596,106 @@
           },
           "code": {
             "type": "number",
-            "example": "201"
+            "example": 200
           },
           "data": {
             "type": "object",
-            "example": "{data about product: date, product, weight, calories, owner, _id}"
+            "example": {
+              "result": {
+                "products": [
+                  {
+                    "_id": "5d51694902b2373622ff5776",
+                    "categories": ["молочные"],
+                    "weight": 100,
+                    "title": {
+                      "ru": "Сыр Джугас",
+                      "ua": "Сир Джугас"
+                    },
+                    "calories": 364,
+                    "groupBloodNotAllowed": [null, true, true, false, false],
+                    "__v": 0
+                  },
+                  {
+                    "_id": "5d51694902b2373622ff576a",
+                    "categories": ["молочные"],
+                    "weight": 100,
+                    "title": {
+                      "ru": "Сыр Гауда",
+                      "ua": "Сир Гауда"
+                    },
+                    "calories": 356,
+                    "groupBloodNotAllowed": [null, true, true, false, false],
+                    "__v": 0
+                  },
+                  {
+                    "_id": "5d51694902b2373622ff57c5",
+                    "categories": ["молочные"],
+                    "weight": 100,
+                    "title": {
+                      "ru": "Сыр Русская Моцарелла Кезский сырзавод",
+                      "ua": "Сир Російська Моцарелла Кезский сирзавод"
+                    },
+                    "calories": 286,
+                    "groupBloodNotAllowed": [null, true, true, false, false],
+                    "__v": 0
+                  },
+                  {
+                    "_id": "5d51694902b2373622ff572b",
+                    "categories": ["молочные"],
+                    "weight": 100,
+                    "title": {
+                      "ru": "Сыр Exquisa творожный с лососем",
+                      "ua": "Сир Exquisa сирний з лососем"
+                    },
+                    "calories": 235,
+                    "groupBloodNotAllowed": [null, true, true, false, false],
+                    "__v": 0
+                  }
+                ],
+                "dailyCalorie": 1439
+              }
+            }
+          }
+        }
+      },
+
+      "GetAllDietProductsResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "array",
+            "example": {
+              "_id": "5d51694802b2373622ff553b",
+              "categories": ["яйца"],
+              "weight": 100,
+              "title": {
+                "ru": "Яйцо куриное (желток сухой)",
+                "ua": "Яйце куряче (жовток сухий)"
+              },
+              "calories": 623,
+              "groupBloodNotAllowed": [null, true, false, false, false],
+              "__v": 0
+            }
+          }
+        }
+      },
+
+      "GetQueryDietProductsResponse": {
+        "type": "object",
+        "properties": {
+          "queryProduct": {
+            "type": "object",
+            "example": {
+              "_id": "5d51694802b2373622ff553b",
+              "categories": ["яйца"],
+              "weight": 100,
+              "title": {
+                "ru": "Яйцо куриное (желток сухой)",
+                "ua": "Яйце куряче (жовток сухий)"
+              },
+              "calories": 623,
+              "groupBloodNotAllowed": [null, true, false, false, false]
+            }
           }
         }
       }
