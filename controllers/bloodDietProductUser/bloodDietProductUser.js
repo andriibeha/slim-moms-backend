@@ -1,19 +1,10 @@
 const { BloodDietProduct } = require('../../models');
-const { RequestError } = require('../../helpers');
-const { User } = require('../../models/user');
+
 
 const bloodDietProductsUser = async (req, res, next) => {
-  const { id } = req.params;
-  console.log('#################################ID', id);
-
-  const user = await User.findById(id);
-
-  if (!user) {
-    throw RequestError(404, 'Not found');
-  }
-
-  const bloodType = user.bloodType;
-  const dailyCalorieUser = user.dailyCalorie;
+  
+  const bloodType = req.user.bloodType;
+  const dailyCalorieUser = req.user.dailyCalorie;
   const result = await BloodDietProduct.find({});
 
   const data = result.filter(
