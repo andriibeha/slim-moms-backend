@@ -5,9 +5,9 @@ const ctrl = require('../../controllers/bloodDietProductUser');
 const { ctrlWrapper, validation } = require('../../middelwares');
 const { getBloodDietSchema } = require('../../models/bloodDietProduct');
 
-router.post('/', validation(getBloodDietSchema), ctrlWrapper(getDiet));
+router.post('/', validation(getBloodDietSchema), ctrlWrapper(getDiet)); //Мав би бути ще один такий роут але приватний.
 router.get('/all', ctrlWrapper(ctrl.allProducts));
 router.get('/all/query', ctrlWrapper(ctrl.queryProducts));
-router.get('/:id', ctrlWrapper(ctrl.bloodDietProductUser));
+router.get('/:id', ctrlWrapper(ctrl.bloodDietProductUser)); //Це має бути приватний роут. Сюди приходять Нулі і повертає пустий масив
 
 module.exports = router;

@@ -4,6 +4,7 @@ const { RequestError } = require('../../helpers');
 const removeById = async (req, res) => {
   const { productId } = req.params;
   const { _id } = req.user;
+  console.log('#removeById', productId);
 
   const removedProduct = await DailyProduct.findByIdAndRemove(productId, _id);
 

@@ -4,6 +4,8 @@ const { User } = require('../../models/user');
 
 const bloodDietProductsUser = async (req, res, next) => {
   const { id } = req.params;
+  console.log('#################################ID', id);
+
   const user = await User.findById(id);
 
   if (!user) {

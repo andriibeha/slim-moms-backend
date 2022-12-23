@@ -213,25 +213,30 @@
             "name": "ProductId",
             "in": "path",
             "description": "ProductId",
+            "example": "63a5974ca3917e5cba63f551",
             "required": true
           }
         ],
         "security": [{ "Bearer": [] }],
 
         "responses": {
-          "201": {
+          "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetDailyProductResponse"
+                  "$ref": "#/components/schemas/DeleteDailyProductResponse"
                 }
               }
             }
           },
 
           "400": {
-            "description": "Bad request (invalid request query)"
+            "description": "Unautorized"
+          },
+
+          "404": {
+            "description": "Product with id: '${productId}'  not found"
           }
         }
       }
@@ -551,6 +556,27 @@
               "date": "2022-12-23T08:30:45.846Z",
               "caloricityPerDay": 410.4,
               "dateFirstAdded": "2022-10-21T00:00:00.000Z"
+            }
+          }
+        }
+      },
+      "DeleteDailyProductResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "status": "success",
+            "code": 200,
+            "example": {
+              "removedProduct": {
+                "_id": "63a5974ca3917e5cba63f551",
+                "date": "2022-12-23T11:54:56.828Z",
+                "product": "Омлет із сиром",
+                "weight": 120,
+                "calories": 410.4,
+                "owner": "63a59720a3917e5cba63f546",
+                "__v": 0
+              }
             }
           }
         }
