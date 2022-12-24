@@ -27,9 +27,9 @@ const BloodDietProduct = model('product', bloodDietProductsSchemaModel);
 const getBloodDietSchema = Joi.object({
   height: Joi.number().integer().required(),
   age: Joi.number().integer().required(),
-  cWeight: Joi.number().integer().required(),
-  dWeight: Joi.number().integer().required(),
-  blood: Joi.number().integer().required(),
+  curWeight: Joi.number().integer().required(),
+  desWeight: Joi.number().integer().required(),
+  bloodType: Joi.number().integer().required(),
 });
 
 module.exports = { BloodDietProduct, getBloodDietSchema };

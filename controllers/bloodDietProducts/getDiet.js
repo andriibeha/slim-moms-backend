@@ -4,46 +4,32 @@ const { RequestError } = require('../../helpers');
 const getDiet = async (req, res, next) => {
   //   "ФОРМУЛА ДЛЯ РОЗРАХУНКУ ДЕННОЇ НОРМИ КАЛОРІЙ ДЛЯ ЖІНОК
   // 10 * вага + 6.25 * зріст - 5 * вік - 161 - 10 * (вага - бажана вага)"
-  const { blood, height, age, cWeight, dWeight } = req.body;
+  const { bloodType, height, age, curWeight, desWeight } = req.body;
 
   const dailyCalorie = Math.round(
-    10 * cWeight + 6.25 * height - 5 * age - 161 - 10 * (cWeight - dWeight)
+    10 * curWeight +
+      6.25 * height -
+      5 * age -
+      161 -
+      10 * (curWeight - desWeight)
   );
 
   const data = await BloodDietProduct.find();
 
-  const allProductsArray = data.filter(
-    item => item.groupBloodNotAllowed[blood] === true
+  const notRecProducts = data.filter(
+    item => item.groupBloodNotAllowed[bloodType] === true
   );
 
-  function randomNumber(min, max) {
-    min = 0;
-    max = allProductsArray.length;
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
-
-  let products = [];
-
-  if (allProductsArray.length > 4) {
-    for (let i = 1; i <= 4; i += 1) {
-      products.push(allProductsArray[randomNumber()]);
-    }
-  } else {
-    products = allProductsArray;
-  }
-
-  if (!allProductsArray.length) {
+  if (!notRecProducts.length) {
     throw RequestError(404, 'Not found');
   }
 
   res.json({
     status: 'success',
     code: 200,
-    data: {
-      result: {
-        products,
-        dailyCalorie,
-      },
+    result: {
+      notRecProducts,
+      dailyCalorie,
     },
   });
 };
