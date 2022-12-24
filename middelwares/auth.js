@@ -18,7 +18,7 @@ const auth = async (req, res, next) => {
       const user = await User.findById(id);
 
       if (!user) {
-        throw RequestError(404, 'Unautorized');
+        throw RequestError(404, 'Not found user');
       }
 
       req.user = user;

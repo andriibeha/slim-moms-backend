@@ -5,19 +5,23 @@ const dailyProductSchema = Schema({
   date: {
     type: Date,
     default: new Date(),
-    required: false,
+    required: [true, 'Date is a required field'],
   },
   product: {
     type: String,
-    required: true,
+    required: [true, 'Product is a required field'],
   },
   weight: {
     type: Number,
-    required: true,
+    required: [true, 'Weight is a required field'],
+  },
+  baseCaloricity: {
+    type: Number,
+    required: [true, 'Calories is a required field'],
   },
   calories: {
     type: Number,
-    required: true,
+    default: null,
   },
   owner: {
     type: Schema.Types.ObjectId,
@@ -29,6 +33,8 @@ const joiSchema = Joi.object({
   date: Joi.date().format('YYYY.MM.DDZ'),
   product: Joi.string().required(),
   weight: Joi.number().required(),
+  baseCaloricity: Joi.number().required(),
+  calories: Joi.number(),
 });
 
 const DailyProduct = model('dailyProduct', dailyProductSchema);
