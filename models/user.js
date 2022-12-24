@@ -32,6 +32,34 @@ const userSchema = Schema(
       type: Number,
       default: null,
     },
+    height: {
+      type: Number,
+      default: null,
+    },
+    age: {
+      type: Number,
+      default: null,
+    },
+    curWeight: {
+      type: Number,
+      default: null,
+    },
+    desWeight: {
+      type: Number,
+      default: null,
+    },
+    notRecProducts: {
+      type: Array,
+      default: null,
+    },
+    // bloodType: {
+    //   type: Number,
+    //   default: null,
+    // },
+    // dailyCalorie: {
+    //   type: Number,
+    //   default: null,
+    // },
     // verificationToken: {
     //   type: String,
     //   required: [true, 'Verify token is required'],
