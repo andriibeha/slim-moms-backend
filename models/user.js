@@ -5,15 +5,15 @@ const userSchema = Schema(
   {
     name: {
       type: String,
-      required: [true, 'Name is required'],
+      required: [true, 'Name is a required field'],
     },
     password: {
       type: String,
-      required: [true, 'Password is required'],
+      required: [true, 'Password is a required field'],
     },
     email: {
       type: String,
-      required: [true, 'Email is required'],
+      required: [true, 'Email is a required field'],
       unique: true,
     },
     token: {
@@ -52,18 +52,6 @@ const userSchema = Schema(
       type: Array,
       default: null,
     },
-    // bloodType: {
-    //   type: Number,
-    //   default: null,
-    // },
-    // dailyCalorie: {
-    //   type: Number,
-    //   default: null,
-    // },
-    // verificationToken: {
-    //   type: String,
-    //   required: [true, 'Verify token is required'],
-    // },
   },
   { versionKey: false, timestamps: true }
 );
