@@ -1,10 +1,12 @@
 const { BloodDietProduct } = require('../../models');
 
-
 const bloodDietProductsUser = async (req, res, next) => {
-  
   const bloodType = req.user.bloodType;
-  const dailyCalorieUser = req.user.dailyCalorie;
+  const { height, age, cWeight, dWeight } = req.body;
+  const dailyCalorieUser = Math.round(
+    10 * cWeight + 6.25 * height - 5 * age - 161 - 10 * (cWeight - dWeight)
+  );
+
   const result = await BloodDietProduct.find({});
 
   const data = result.filter(
