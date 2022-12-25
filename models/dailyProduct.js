@@ -2,10 +2,11 @@ const { Schema, model } = require('mongoose');
 const Joi = require('joi').extend(require('@joi/date'));
 
 const dailyProductSchema = Schema({
+  //FIX THIS
   date: {
     type: Date,
     default: new Date(),
-    required: [true, 'Date is a required field'],
+    required: [false, 'Date is a required field'],
   },
   product: {
     type: String,

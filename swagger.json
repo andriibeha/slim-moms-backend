@@ -18,6 +18,10 @@
       "description": "Auth endpoints"
     },
     {
+      "name": "User",
+      "description": "User endpoints"
+    },
+    {
       "name": "Daily-products",
       "description": "Daily products"
     },
@@ -128,6 +132,72 @@
 
           "400": {
             "description": "Invalid signature (bad token)"
+          }
+        }
+      }
+    },
+
+    "/api/users/update": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "User update",
+
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+
+        "requestBody": {
+          "description": "User update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdateRequest"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserUpdateResponse"
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "Invalid request body"
+          }
+        }
+      }
+    },
+
+    "/api/users/current": {
+      "get": {
+        "tags": ["User"],
+        "summary": "User current",
+
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCurrentResponse"
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "Invalid request body"
           }
         }
       }
@@ -356,20 +426,24 @@
     },
 
     "/api/bloodproducts/:id": {
-      "get": {
+      "post": {
         "tags": ["Daily-diet-products"],
         "summary": "Get user diet produtcs",
 
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "User id",
-            "example": "Яйцо куриное (желток сухой)",
-            "required": true
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+
+        "requestBody": {
+          "description": "Blood diet product of user",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetQueryDietProductsRequest"
+              }
+            }
           }
-        ],
-        "security": [],
+        },
 
         "responses": {
           "201": {
@@ -482,11 +556,119 @@
       "LogoutResponse": {
         "type": "object",
         "properties": {
-          "response": {
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "example": 200
+          }
+        }
+      },
+
+      "UserUpdateRequest": {
+        "type": "object",
+        "required": [true],
+        "properties": {
+          "bloodType": {
+            "type": "number",
+            "description": "User bloodType",
+            "example": 2
+          },
+          "height": {
+            "type": "number",
+            "description": "User height",
+            "example": 180
+          },
+          "age": {
+            "type": "number",
+            "description": "User age",
+            "example": 25
+          },
+          "curWeight": {
+            "type": "number",
+            "description": "User currently weight",
+            "example": 65
+          },
+          "desWeight": {
+            "type": "number",
+            "description": "User want weight",
+            "example": 65
+          }
+        }
+      },
+      "UserUpdateResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "example": "success"
+          },
+          "code": {
+            "type": "number",
+            "description": "Code",
+            "example": 200
+          },
+          "result": {
             "type": "object",
-            "description": "Status code",
             "example": {
-              "status": "success"
+              "notRecProducts": "Array of not recomendet products",
+              "dailyCalorie": 1400
+            }
+          },
+          "user": {
+            "type": "object",
+            "description": "User data",
+            "example": {
+              "id": "63a865cb90e609b21b2b248f",
+              "name": "Bob",
+              "password": "$2a$10$QuYmYk2rF8qdKdN08OLoRe3vismvA2Fjapq/LC6jTiprqKKrduYgC",
+              "email": "bob@gmail.com",
+              "verify": false,
+              "bloodType": 2,
+              "dailyCalorie": 1439,
+              "height": 180,
+              "age": 25,
+              "curWeight": 65,
+              "desWeight": 60,
+              "notRecProducts": "Array of not recomendet products",
+              "createdAt": "2022-12-25T15:01:31.394Z",
+              "updatedAt": "2022-12-25T15:14:26.791Z"
+            }
+          }
+        }
+      },
+
+      "UserCurrentResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Status",
+            "example": "success"
+          },
+          "code": {
+            "type": "number",
+            "description": "Code",
+            "example": 200
+          },
+          "data": {
+            "type": "object",
+            "description": "User data",
+            "example": {
+              "user": {
+                "id": "63a865cb90e609b21b2b248f",
+                "name": "Bob",
+                "password": "$2a$10$QuYmYk2rF8qdKdN08OLoRe3vismvA2Fjapq/LC6jTiprqKKrduYgC",
+                "email": "bob@gmail.com",
+                "verify": false,
+                "bloodType": 2,
+                "dailyCalorie": 1439,
+                "height": 180,
+                "age": 25,
+                "curWeight": 65,
+                "desWeight": 60,
+                "notRecProducts": "Array of not recomendet products"
+              }
             }
           }
         }
@@ -496,15 +678,20 @@
         "type": "object",
         "required": [true],
         "properties": {
+          "weight": {
+            "type": "number",
+            "description": "product weight",
+            "example": 100
+          },
+          "baseCaloricity": {
+            "type": "number",
+            "description": "base caloricity ",
+            "example": "2022-12-23T08:30:45.846Z"
+          },
           "product": {
             "type": "string",
             "description": "product name",
             "example": "Омлет із сиром"
-          },
-          "weight": {
-            "type": "number",
-            "description": "product weight",
-            "example": "100"
           }
         }
       },
@@ -519,18 +706,17 @@
             "type": "number",
             "example": "201"
           },
-          "data": {
+          "result": {
             "type": "object",
             "example": {
-              "result": {
-                "date": "2022-12-23T08:30:45.846Z",
-                "product": "Омлет із сиром",
-                "weight": 120,
-                "calories": 410.4,
-                "owner": "63a47ae7657b0c3d8c9f4700",
-                "_id": "63a56ca376a6944b25434d8f",
-                "__v": 0
-              }
+              "date": "2022-12-23T08:30:45.846Z",
+              "product": "Омлет із сиром",
+              "weight": 120,
+              "calories": 410.4,
+              "baseCaloricity": 50,
+              "owner": "63a47ae7657b0c3d8c9f4700",
+              "_id": "63a56ca376a6944b25434d8f",
+              "__v": 0
             }
           }
         }
@@ -563,20 +749,25 @@
       "DeleteDailyProductResponse": {
         "type": "object",
         "properties": {
-          "data": {
+          "status": {
+            "type": "string",
+            "example": "succes"
+          },
+          "code": {
+            "type": "number",
+            "example": "201"
+          },
+          "removedProduct": {
             "type": "object",
-            "status": "success",
-            "code": 200,
             "example": {
-              "removedProduct": {
-                "_id": "63a5974ca3917e5cba63f551",
-                "date": "2022-12-23T11:54:56.828Z",
-                "product": "Омлет із сиром",
-                "weight": 120,
-                "calories": 410.4,
-                "owner": "63a59720a3917e5cba63f546",
-                "__v": 0
-              }
+              "_id": "63a870b7f36e599a23fb4a3d",
+              "date": "2022-12-25T15:48:04.975Z",
+              "product": "Омлет із сиром",
+              "weight": 120,
+              "baseCaloricity": 50,
+              "calories": 60,
+              "owner": "63a865cb90e609b21b2b248f",
+              "__v": 0
             }
           }
         }
@@ -596,17 +787,17 @@
             "description": "user age",
             "example": 25
           },
-          "cWeight": {
+          "curWeight": {
             "type": "number",
             "description": "user currently weight",
             "example": 65
           },
-          "dWeight": {
+          "desWeight": {
             "type": "number",
             "description": "user want weight",
             "example": 60
           },
-          "blood": {
+          "bloodType": {
             "type": "number",
             "description": "user blood type",
             "example": 2
@@ -624,62 +815,13 @@
             "type": "number",
             "example": 200
           },
-          "data": {
-            "type": "object",
+          "result": {
             "example": {
-              "result": {
-                "products": [
-                  {
-                    "_id": "5d51694902b2373622ff5776",
-                    "categories": ["молочные"],
-                    "weight": 100,
-                    "title": {
-                      "ru": "Сыр Джугас",
-                      "ua": "Сир Джугас"
-                    },
-                    "calories": 364,
-                    "groupBloodNotAllowed": [null, true, true, false, false],
-                    "__v": 0
-                  },
-                  {
-                    "_id": "5d51694902b2373622ff576a",
-                    "categories": ["молочные"],
-                    "weight": 100,
-                    "title": {
-                      "ru": "Сыр Гауда",
-                      "ua": "Сир Гауда"
-                    },
-                    "calories": 356,
-                    "groupBloodNotAllowed": [null, true, true, false, false],
-                    "__v": 0
-                  },
-                  {
-                    "_id": "5d51694902b2373622ff57c5",
-                    "categories": ["молочные"],
-                    "weight": 100,
-                    "title": {
-                      "ru": "Сыр Русская Моцарелла Кезский сырзавод",
-                      "ua": "Сир Російська Моцарелла Кезский сирзавод"
-                    },
-                    "calories": 286,
-                    "groupBloodNotAllowed": [null, true, true, false, false],
-                    "__v": 0
-                  },
-                  {
-                    "_id": "5d51694902b2373622ff572b",
-                    "categories": ["молочные"],
-                    "weight": 100,
-                    "title": {
-                      "ru": "Сыр Exquisa творожный с лососем",
-                      "ua": "Сир Exquisa сирний з лососем"
-                    },
-                    "calories": 235,
-                    "groupBloodNotAllowed": [null, true, true, false, false],
-                    "__v": 0
-                  }
-                ],
-                "dailyCalorie": 1439
-              }
+              "data": {
+                "type": "array",
+                "description": "Array of not recomendet products"
+              },
+              "dailyCalorie": 1400
             }
           }
         }
@@ -706,6 +848,30 @@
         }
       },
 
+      "GetQueryDietProductsRequest": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "example": {
+              "result": [
+                {
+                  "_id": "63a56ca376a6944b25434d8f",
+                  "date": "2022-12-23T08:30:45.846Z",
+                  "product": "Омлет із сиром",
+                  "weight": 120,
+                  "calories": 410.4,
+                  "owner": "63a47ae7657b0c3d8c9f4700",
+                  "__v": 0
+                }
+              ],
+              "date": "2022-12-23T08:30:45.846Z",
+              "caloricityPerDay": 410.4,
+              "dateFirstAdded": "2022-10-21T00:00:00.000Z"
+            }
+          }
+        }
+      },
       "GetQueryDietProductsResponse": {
         "type": "object",
         "properties": {

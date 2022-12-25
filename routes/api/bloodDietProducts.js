@@ -5,9 +5,9 @@ const ctrl = require('../../controllers/bloodDietProductUser');
 const { ctrlWrapper, validation, auth } = require('../../middelwares');
 const { getBloodDietSchema } = require('../../models');
 
-router.post('/', validation(getBloodDietSchema), ctrlWrapper(getDiet)); // Мав би бути ще один такий роут але приватний.
+router.post('/', validation(getBloodDietSchema), ctrlWrapper(getDiet));
 router.get('/all', ctrlWrapper(ctrl.allProducts));
-router.get('/all/query', ctrlWrapper(ctrl.queryProducts));
-router.post('/:id', auth, ctrlWrapper(ctrl.bloodDietProductUser)); // Це має бути приватний роут. Сюди приходять Нулі і повертає пустий масив
+router.get('/all/query', ctrlWrapper(ctrl.queryProducts)); // ЦЕ НЕ ПРАЦЮЄ
+router.post('/:id', auth, ctrlWrapper(ctrl.bloodDietProductUser)); // ЩО ЦЕ ТАКЕ І ЩО ТУТ РОБИТЬСЯ?
 
 module.exports = router;
