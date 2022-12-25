@@ -1,6 +1,7 @@
 const { BloodDietProduct } = require('../../models');
 
 const bloodDietProductsUser = async (req, res, next) => {
+
   const bloodType = req.user.bloodType;
   const { height, age, cWeight, dWeight } = req.body;
   const dailyCalorieUser = Math.round(
