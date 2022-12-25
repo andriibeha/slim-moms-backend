@@ -1,5 +1,6 @@
 const { User } = require('../../models');
 const { BloodDietProduct } = require('../../models');
+const { RequestError } = require('../../helpers');
 
 // Error?????????
 // Forbid to return password!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -18,16 +19,13 @@ const updateUser = async (req, res) => {
 
   const products = await BloodDietProduct.find({});
 
-  const fullNotRec = products.filter(
+  const notRecProducts = products.filter(
     product => product.groupBloodNotAllowed[bloodType] === true
   );
 
-  const notRecProducts = fullNotRec.map(product => {
-    return {
-      _id: product._id,
-      product: product.title.ua,
-    };
-  });
+  if (!notRecProducts.length) {
+    throw RequestError(404, 'Not found');
+  }
 
   const user = await User.findByIdAndUpdate(
     _id,
@@ -48,18 +46,11 @@ const updateUser = async (req, res) => {
   res.json({
     status: 'success',
     code: 200,
-    data: {
-      user: {
-        name: user.name,
-        bloodType: user.bloodType,
-        height: user.height,
-        age: user.age,
-        curWeight: user.curWeight,
-        desWeight: user.desWeight,
-        dailyCalorie: user.dailyCalorie,
-        notRecProducts: user.notRecProducts,
-      },
+    result: {
+      notRecProducts,
+      dailyCalorie,
     },
+    user,
   });
 };
 
