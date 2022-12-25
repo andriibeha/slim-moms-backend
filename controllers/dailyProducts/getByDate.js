@@ -1,8 +1,8 @@
 const { DailyProduct } = require('../../models');
 const { RequestError } = require('../../helpers');
 
-const getProducts = async () => {
-  const result = await DailyProduct.find({});
+const getProducts = async _id => {
+  const result = await DailyProduct.find({ owner: _id });
   return result;
 };
 
@@ -21,8 +21,9 @@ const getByDate = async (req, res) => {
     return acc;
   }, 0);
 
-  const products = getProducts({ owner: _id });
-  const dateFirstAdded = (await products).sort((a, b) => {
+  const products = await getProducts(_id);
+
+  const dateFirstAdded = products.sort((a, b) => {
     return new Date(a.date) - new Date(b.date);
   })[0].date;
 
