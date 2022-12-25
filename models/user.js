@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcryptjs');
+const Joi = require('joi');
 
 const userSchema = Schema(
   {
@@ -56,10 +57,18 @@ const userSchema = Schema(
   { versionKey: false, timestamps: true }
 );
 
+const UserJoiSchema = Joi.object({
+  bloodType: Joi.number().min(1).max(4).required(),
+  height: Joi.number().min(100).max(250).required(),
+  age: Joi.number().min(18).max(100).required(),
+  curWeight: Joi.number().required(),
+  desWeight: Joi.number().required(),
+});
+
 userSchema.methods.comparePassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
 const User = model('user', userSchema);
 
-module.exports = { User };
+module.exports = { User, UserJoiSchema };

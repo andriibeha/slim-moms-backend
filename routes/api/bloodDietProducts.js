@@ -7,7 +7,7 @@ const { getBloodDietSchema } = require('../../models');
 
 router.post('/', validation(getBloodDietSchema), ctrlWrapper(getDiet));
 router.get('/all', ctrlWrapper(ctrl.allProducts));
-router.get('/all/query', ctrlWrapper(ctrl.queryProducts)); // ЦЕ НЕ ПРАЦЮЄ
-router.post('/:id', auth, ctrlWrapper(ctrl.bloodDietProductUser)); // ЩО ЦЕ ТАКЕ І ЩО ТУТ РОБИТЬСЯ?
+router.get('/all/query', auth, ctrlWrapper(ctrl.queryProducts));
+router.post('/:id', auth, ctrlWrapper(ctrl.bloodDietProductUser));
 
 module.exports = router;

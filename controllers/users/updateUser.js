@@ -27,7 +27,7 @@ const updateUser = async (req, res) => {
     throw RequestError(404, 'Not found');
   }
 
-  const user = await User.findByIdAndUpdate(
+  await User.findByIdAndUpdate(
     _id,
     {
       bloodType,
@@ -43,14 +43,22 @@ const updateUser = async (req, res) => {
     }
   );
 
+  const user = {
+    bloodType,
+    height,
+    age,
+    curWeight,
+    desWeight,
+    dailyCalorie,
+    notRecProducts,
+  };
+
   res.json({
     status: 'success',
     code: 200,
-    result: {
-      notRecProducts,
-      dailyCalorie,
+    data: {
+      user,
     },
-    user,
   });
 };
 
