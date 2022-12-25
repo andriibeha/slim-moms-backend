@@ -1,21 +1,31 @@
 const { BloodDietProduct } = require('../../models');
+const { RequestError } = require('../../helpers');
 
 const queryProducts = async (req, res) => {
   const { title } = req.query;
 
   const result = await BloodDietProduct.find({});
 
-  if (result) {
-    const queryProduct = result.filter(result =>
-      result.title.ua.includes(title)
-    );
+  const matchedProducts = result.filter(product =>
+    product.title.ua.toLowerCase().includes(title)
+  );
 
-    res.json({
-      status: 'success',
-      code: 200,
-      queryProduct,
-    });
+  const queryProducts = matchedProducts.map(product => {
+    return {
+      id: product._id,
+      title: product.title.ua,
+      calories: product.calories,
+    };
+  });
+  if (!queryProducts.length) {
+    throw RequestError(404, 'Not found ');
   }
+
+  res.json({
+    status: 'success',
+    code: 200,
+    queryProducts,
+  });
 };
 
 module.exports = queryProducts;
