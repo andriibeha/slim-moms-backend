@@ -4,7 +4,6 @@ const Joi = require('joi').extend(require('@joi/date'));
 const dailyProductSchema = Schema({
   date: {
     type: Date,
-    default: new Date(),
     required: [true, 'Date is a required field'],
   },
   product: {
