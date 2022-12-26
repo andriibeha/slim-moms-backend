@@ -2,8 +2,6 @@ const { BloodDietProduct } = require('../../models');
 const { RequestError } = require('../../helpers');
 
 const getDiet = async (req, res, next) => {
-  //   "ФОРМУЛА ДЛЯ РОЗРАХУНКУ ДЕННОЇ НОРМИ КАЛОРІЙ ДЛЯ ЖІНОК
-  // 10 * вага + 6.25 * зріст - 5 * вік - 161 - 10 * (вага - бажана вага)"
   const { bloodType, height, age, curWeight, desWeight } = req.body;
 
   const dailyCalorie = Math.round(

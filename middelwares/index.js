@@ -1,5 +1,5 @@
 const validation = require('./validation');
-const ctrlWrapper = require('./ctrlWrapper');
+const ctrlWrapper = require('../helpers/ctrlWrapper');
 const userRegisterValidation = require('./userRegisterValidation');
 const userLoginValidation = require('./UserLoginValidation');
 const auth = require('./auth');

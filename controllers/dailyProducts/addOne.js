@@ -1,19 +1,9 @@
 const { DailyProduct } = require('../../models');
 
-// const getProducts = async () => {
-//   const result = await BloodDietProduct.find({});
-//   return result;
-// };
-
 const addOne = async (req, res) => {
   const { _id } = req.user;
 
   const { weight, product, date, baseCaloricity } = req.body;
-  // const products = await getProducts();
-
-  // const productCaloricity = products.find(
-  //   it => it.title.ua === product
-  // ).calories;
 
   const calories = (baseCaloricity * weight) / 100;
 
