@@ -23,10 +23,7 @@ const getByDate = async (req, res) => {
 
   const products = await getProducts(_id);
 
-  //ОЦЕ ЯКАСЬ ДІЧ І ВОНА НЕ ПРАЦЮЄ
-  const dateFirstAdded = products.sort((a, b) => {
-    return new Date(a.date) - new Date(b.date);
-  })[0].date;
+  const dateFirstAdded = products[0].date;
 
   res.json({
     status: 'success',
