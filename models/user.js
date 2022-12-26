@@ -61,8 +61,8 @@ const UserJoiSchema = Joi.object({
   bloodType: Joi.number().min(1).max(4).required(),
   height: Joi.number().min(100).max(250).required(),
   age: Joi.number().min(18).max(100).required(),
-  curWeight: Joi.number().required(),
-  desWeight: Joi.number().required(),
+  curWeight: Joi.number().min(20).max(500).required(),
+  desWeight: Joi.number().min(20).max(500).required(),
 });
 
 userSchema.methods.comparePassword = function (password) {

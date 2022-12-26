@@ -31,7 +31,7 @@ const dailyProductSchema = Schema({
 const joiSchema = Joi.object({
   date: Joi.date().format('YYYY.MM.DDZ').required(),
   product: Joi.string().required(),
-  weight: Joi.number().required(),
+  weight: Joi.number().min(1).max(1000).required(),
   baseCaloricity: Joi.number().required(),
   calories: Joi.number(),
 });
